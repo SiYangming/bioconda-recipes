@@ -1,0 +1,55 @@
+{% set name = "orffinder" %}
+{% set version = "0.4.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/ORFfinder/linux-i64/ORFfinder.gz
+  sha256: f30a0806b984931a967d8024066a53dbb811035ca14564f36f7f7045a6a509f2
+
+build:
+  number: 0
+  skip: true  # [not linux]
+  script: |
+    gunzip -fc $SRC_DIR/ORFfinder.gz > $SRC_DIR/ORFfinder
+    mkdir -p $PREFIX/bin
+    cp $SRC_DIR/ORFfinder $PREFIX/bin/
+    chmod +x $PREFIX/bin/ORFfinder
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x") }}
+
+requirements:
+  run:
+    - libgcc-ng
+    - libuv
+    - libnghttp2
+
+test:
+  commands:
+    - ORFfinder -h > /dev/null 2>&1
+    - ORFfinder -dryrun > /dev/null 2>&1
+
+about:
+  home: https://www.ncbi.nlm.nih.gov/orffinder/
+  license: Public Domain
+  license_family: Public Domain
+  summary: 'NCBI ORFfinder: Finds open reading frames (ORFs) in nucleotide sequences'
+  description: |
+    ORFfinder is a graphical analysis tool that finds all open reading frames 
+    of a selectable minimum size in a user's sequence or in a sequence already 
+    stored in a GenBank database. This tool identifies all open reading frames 
+    (ORFs) by using the standard or alternative genetic codes. The deduced 
+    amino acid sequences can be saved in various formats and searched against 
+    the sequence database.
+  dev_url: https://www.ncbi.nlm.nih.gov/orffinder/
+  doc_url: https://www.ncbi.nlm.nih.gov/orffinder/
+
+extra:
+  additional-platforms:
+    - linux-aarch64
+  skip-lints:
+    - should_be_noarch_generic
+  recipe-maintainers:
+    - SiYangming
