@@ -1,0 +1,67 @@
+{% set name = "cresil" %}
+{% set version = "1.2.1" %}
+{% set sha256 = "c85143c99bb5f1a7df30181de0318679a0cd1b7bfbcd54a0bdfb21471f3dc4e5" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://gitlab.com/visanu/cresil/-/archive/V{{ version }}/cresil-V{{ version }}.tar.gz
+  sha256: '{{ sha256 }}'
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  entry_points:
+    - cresil = cresil:main
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x") }}
+
+requirements:
+  host:
+    - python >=3.8,<3.11
+    - pip
+    - setuptools
+  run:
+    - python >=3.8,<3.11
+    - biopython
+    - minimap2
+    - mappy
+    - python-intervaltree
+    - tqdm
+    - pandas
+    - pysam
+    - samtools
+    - bedtools
+    - pybedtools
+    - nanofilt
+    - tabix
+    - bcftools
+    - mosdepth
+
+test:
+  commands:
+    - cresil --version
+    - cresil --help
+
+about:
+  home: https://gitlab.com/visanu/cresil
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'Accurate Identification of Extrachromosomal Circular DNA from Long-read Sequences'
+  description: |
+    CReSIL is a tool for detecting eccDNA from Nanopore reads.
+  dev_url: https://gitlab.com/visanu/cresil
+  doc_url: https://gitlab.com/visanu/cresil
+
+extra:
+  identifiers:
+    - doi:10.1093/bib/bbac422
+  additional-platforms:
+    - linux-aarch64
+    - osx-arm64
+  recipe-maintainers:
+    - SiYangming
