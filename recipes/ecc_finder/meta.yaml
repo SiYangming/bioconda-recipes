@@ -1,0 +1,65 @@
+{% set name = "ecc_finder" %}
+{% set version = "1.0.0" %}
+{% set sha256 = "1c8800175f433c6f179eb01034299aaadaab73b4505902846f2ddd7bf42cedd4" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/njaupanpan/ecc_finder/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x") }}
+
+requirements:
+  host:
+    - python >=3.8,<3.11
+    - pip
+    - setuptools
+  run:
+    - python >=3.8,<3.11
+    - pysam
+    - numpy
+    - pandas
+    - matplotlib-base
+    - pybedtools
+    - minimap2
+    - bwa
+    - samtools
+    - bedtools
+    - fastp
+    - seqtk
+    - cd-hit
+    - requests
+
+test:
+  commands:
+    - ecc_finder.py --version
+    - ecc_finder.py --help
+
+about:
+  home: https://github.com/njaupanpan/ecc_finder
+  license: GPL-3.0-or-later
+  license_family: GPL3
+  license_file: LICENSE
+  summary: "ecc_finder: A robust and accurate detection tool to detect eccDNA using Illumina and ONT sequencing"
+  description: |
+    ecc_finder is a tool for detecting extrachromosomal circular DNA (eccDNA) 
+    from sequencing data. It supports both Illumina short reads and ONT long reads.
+  dev_url: https://github.com/njaupanpan/ecc_finder
+  doc_url: https://github.com/njaupanpan/ecc_finder
+
+extra:
+  identifiers:
+    - doi:10.1186/s13059-024-03227-7
+  additional-platforms:
+    - linux-aarch64
+    - osx-arm64
+  recipe-maintainers:
+    - SiYangming
