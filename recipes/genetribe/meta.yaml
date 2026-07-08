@@ -1,0 +1,66 @@
+{% set name = "genetribe" %}
+{% set version = "1.2.1" %}
+{% set sha256 = "f1ffb024f9b52a2d97f0f2f7992f0d906fcb73e471e6696cf9c0855aa23fee33" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/chenym1/genetribe/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+  noarch: python
+  script: |
+    mkdir -p $PREFIX/bin
+    cp -r genetribe-{{ version }}/bin/* $PREFIX/bin/
+    cp -r genetribe-{{ version }}/lib $PREFIX/
+    chmod +x $PREFIX/bin/*
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x") }}
+
+requirements:
+  host:
+    - python >=3.6
+    - pip
+  run:
+    - python >=3.6
+    - blast
+    - bedtools
+    - jcvi
+    - pandas
+    - numpy
+    - matplotlib-base
+    - scipy
+    - seaborn
+    - scikit-learn
+    - gawk
+
+test:
+  commands:
+    - genetribe -h
+
+about:
+  home: https://github.com/chenym1/genetribe
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: 'GeneTribe: a comprehensive toolkit for gene family analysis'
+  description: |
+    GeneTribe is a comprehensive toolkit for gene family analysis, 
+    integrating multiple bioinformatics tools and algorithms for 
+    gene family identification, evolutionary analysis, and comparative 
+    genomics studies.
+  dev_url: https://github.com/chenym1/genetribe
+  doc_url: https://github.com/chenym1/genetribe
+
+extra:
+  identifiers:
+    - doi:10.1093/nar/gkaa427
+  additional-platforms:
+    - linux-aarch64
+    - osx-arm64
+  recipe-maintainers:
+    - SiYangming
