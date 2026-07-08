@@ -1,0 +1,58 @@
+{% set name = "diann" %}
+{% set version = "2.6.1" %}
+{% set sha256 = "83a57ac7f6115d2059b0cbaa52b8c6300712ea815797869a31f2db08675aae39" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/vdemichev/DiaNN/releases/download/2.0/DIA-NN-{{ version }}-Academia-Linux.zip
+  sha256: {{ sha256 }}
+
+build:
+  number: 0
+  skip: true  # [not linux]
+  run_exports:
+    - {{ pin_subpackage(name, max_pin="x") }}
+  missing_dso_whitelist:
+    - '*'
+
+requirements:
+  run:
+    - dotnet-runtime >=8.0
+    - _openmp_mutex
+    - libgcc-ng
+    - libstdcxx-ng
+    - python
+    - polars
+    - numpy
+    - matplotlib-base
+
+test:
+  commands:
+    - test -f $PREFIX/bin/diann
+    - diann --help || true
+
+about:
+  home: https://github.com/vdemichev/DiaNN
+  license: Custom
+  license_file: LICENSE.txt
+  summary: 'DIA-NN: Deep learning-based analysis of data-independent acquisition mass spectrometry data'
+  description: |
+    DIA-NN is a universal software for data-independent acquisition (DIA) 
+    proteomics data processing. It integrates deep learning and other 
+    advanced computational methods to deliver high performance in terms 
+    of sensitivity, precision and speed.
+  dev_url: https://github.com/vdemichev/DiaNN
+  doc_url: https://github.com/vdemichev/DiaNN
+
+extra:
+  identifiers:
+    - doi:10.1038/s41592-019-0638-x
+  additional-platforms:
+    - linux-aarch64
+  skip-lints:
+    - should_be_noarch_generic
+  recipe-maintainers:
+    - SiYangming
