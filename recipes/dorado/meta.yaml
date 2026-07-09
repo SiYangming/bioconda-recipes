@@ -12,10 +12,15 @@ source:
 build:
   number: 0
   skip: true  # [not linux]
+  binary_relocation: false
+  detect_binary_files_with_prefix: false
   script: |
-    mkdir -p $PREFIX/bin
+    mkdir -p $PREFIX/bin $PREFIX/lib
     cp dorado-{{ version }}-linux-x64/bin/dorado $PREFIX/bin/
+    cp -a dorado-{{ version }}-linux-x64/lib/* $PREFIX/lib/
     chmod +x $PREFIX/bin/dorado
+  missing_dso_whitelist:
+    - "*"
   run_exports:
     - {{ pin_subpackage(name, max_pin="x") }}
 
