@@ -14,12 +14,28 @@ build:
   number: 0
   noarch: python
   script: |
+    # Determine source directory (conda-build may strip top-level dir)
+    if [ -d "$SRC_DIR/genetribe-{{ version }}" ]; then
+      GT_DIR="$SRC_DIR/genetribe-{{ version }}"
+    else
+      GT_DIR="$SRC_DIR"
+    fi
+    # Install main script and src to $PREFIX/lib/genetribe
+    mkdir -p $PREFIX/lib/genetribe
+    cp $GT_DIR/genetribe $PREFIX/lib/genetribe/
+    cp -r $GT_DIR/src $PREFIX/lib/genetribe/
+    # Create bin/ symlinks pointing to ../src/ (as install.sh does)
+    mkdir -p $PREFIX/lib/genetribe/bin
+    cd $PREFIX/lib/genetribe/bin
+    for f in ../src/*.py ../src/*.sh; do
+      name=$(basename "$f" | cut -d. -f1)
+      ln -s "$f" "$name"
+    done
+    cd $SRC_DIR
+    # Create wrapper script in $PREFIX/bin
     mkdir -p $PREFIX/bin
-    cp -r genetribe-{{ version }}/bin/* $PREFIX/bin/
-    cp -r genetribe-{{ version }}/lib $PREFIX/
-    chmod +x $PREFIX/bin/*
-  run_exports:
-    - {{ pin_subpackage(name, max_pin="x") }}
+    printf '#!/bin/bash\nexec python3 "$(dirname "$0")/../lib/genetribe/genetribe" "$@"\n' > $PREFIX/bin/genetribe
+    chmod +x $PREFIX/bin/genetribe
 
 requirements:
   host:
