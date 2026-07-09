@@ -17,19 +17,26 @@ build:
     mkdir -p $PREFIX/bin
     cp $SRC_DIR/ORFfinder $PREFIX/bin/
     chmod +x $PREFIX/bin/ORFfinder
-  run_exports:
-    - {{ pin_subpackage(name, max_pin="x") }}
+    # Set RUNPATH so the binary can find conda libraries at runtime
+    patchelf --set-rpath '$ORIGIN/../lib' $PREFIX/bin/ORFfinder
 
 requirements:
+  host:
+    - libgcc-ng
+    - libuv
+    - libnghttp2
+    - elfutils
+    - patchelf
   run:
     - libgcc-ng
     - libuv
     - libnghttp2
+    - elfutils
 
 test:
   commands:
-    - ORFfinder -h > /dev/null 2>&1
-    - ORFfinder -dryrun > /dev/null 2>&1
+    - ORFfinder -h 2>&1 | grep -i "USAGE"
+    - ORFfinder -dryrun
 
 about:
   home: https://www.ncbi.nlm.nih.gov/orffinder/
