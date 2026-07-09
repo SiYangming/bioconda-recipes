@@ -6,8 +6,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://cdn.oxfordnanoportal.com/software/dorado/dorado-{{ version }}-linux-x64.tar.gz
-  sha256: 92892733f411e78193e61a33e882347474b691f52753496488b6922c98d19f10
+  url: https://cdn.oxfordnanoportal.com/software/analysis/dorado-{{ version }}-linux-x64.tar.gz
+  sha256: c558bf1bd319ef8af2af7a1a1e181a4ba7f3f95cd9878ff701465c8f596026e0
 
 build:
   number: 0
