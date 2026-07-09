@@ -1,0 +1,27 @@
+--- setup.py	2026-07-09 16:54:18
++++ setup_fixed.py	2026-07-09 16:54:18
+@@ -3,8 +3,6 @@
+ from setuptools import setup
+ import glob
+ 
+-from eccFinder_utilities.utilities import get_eccFinder_version
+-
+ scripts = glob.glob("*.p*")
+ 
+ setup(
+@@ -13,11 +11,12 @@
+     description='A tool for detecting extrachromosomal circular DNA (eccDNA) from sequencing data.',
+     author='Panpan Zhang',
+     author_email='njaupanpan@gmail.com',
+-    packages=['eccFinder_utilities'],
+-    package_dir={'eccFinder_utilities': 'eccFinder_utilities/'},
++    packages=['eccFinder_lib'],
++    package_dir={'eccFinder_lib': 'eccFinder_lib/'},
+     install_requires=[
+               'pysam',
+               'numpy',
+           ],
+     scripts=scripts,
+-    zip_safe=True
++    zip_safe=True,
++)
