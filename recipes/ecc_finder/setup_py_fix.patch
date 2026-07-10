@@ -3,11 +3,12 @@
 @@ -3,8 +3,6 @@
  from setuptools import setup
  import glob
- 
+
 -from eccFinder_utilities.utilities import get_eccFinder_version
 -
- scripts = glob.glob("*.p*")
- 
+-scripts = glob.glob("*.p*")
++scripts = glob.glob("*.py")
+
  setup(
 @@ -13,11 +11,12 @@
      description='A tool for detecting extrachromosomal circular DNA (eccDNA) from sequencing data.',
