@@ -1,0 +1,10 @@
+--- ecc_finder.py	2026-07-09 16:54:18
++++ ecc_finder_fixed.py	2026-07-09 16:54:18
+@@ -25,6 +25,6 @@
+ import sys
+ import subprocess
+-from eccFinder_utilities.utilities import get_eccFinder_version
++from eccFinder_lib.utilities import get_eccFinder_version
+ 
+ 
+ 
