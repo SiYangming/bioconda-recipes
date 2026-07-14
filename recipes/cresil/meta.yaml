@@ -7,7 +7,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/visanuwan/cresil/tree/master/-/archive/master/cresil_nanocircle-master.tar.gz
+  url: https://gitlab.com/piroonj/cresil_nanocircle/-/archive/master/cresil_nanocircle-master.tar.gz
   sha256: '{{ sha256 }}'
 
 build:
