@@ -59,7 +59,7 @@ test:
     - genetribe -h
 
 about:
-  home: https://github.com/chenym1/genetribe
+  home: https://chenym1.github.io/genetribe/
   license: MIT
   license_family: MIT
   license_file: LICENSE
@@ -70,7 +70,7 @@ about:
     gene family identification, evolutionary analysis, and comparative 
     genomics studies.
   dev_url: https://github.com/chenym1/genetribe
-  doc_url: https://github.com/chenym1/genetribe
+  doc_url: https://chenym1.github.io/genetribe/
 
 extra:
   identifiers:
