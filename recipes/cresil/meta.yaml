@@ -1,30 +1,29 @@
 {% set name = "cresil" %}
-{% set version = "1.2.1" %}
-{% set sha256 = "4ed5d46c7a36a42ab52d20b682944ca5b0d372f0c144c6906c2243b8b6caa31b" %}
+{% set version = "1.2.0" %}
+{% set sha256 = "89453d01ab157f6097c855417a154da4ea4f1e03a9287f552062f743a800883c" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://gitlab.com/piroonj/cresil_nanocircle/-/archive/master/cresil_nanocircle-master.tar.gz
+  url: https://github.com/visanuwan/cresil/archive/refs/heads/master.tar.gz
   sha256: '{{ sha256 }}'
 
 build:
   number: 0
   noarch: python
-  script:
-    - mkdir -p $PREFIX/bin
-    - cp CReSIL/CReSIL-identify.py $PREFIX/bin/
-    - cp CReSIL/CReSIL-trim.py $PREFIX/bin/
-    - cp CReSIL/CReSIL-verify.py $PREFIX/bin/
-    - chmod +x $PREFIX/bin/CReSIL-*.py
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  entry_points:
+    - cresil = cresil:main
   run_exports:
     - {{ pin_subpackage(name, max_pin="x") }}
 
 requirements:
   host:
     - python >=3.8
+    - pip
+    - setuptools
   run:
     - python >=3.8
     - biopython
@@ -45,12 +44,12 @@ requirements:
     - python-graphviz
     - networkx
     - matplotlib-base
+    - medaka
 
 test:
   commands:
-    - CReSIL-trim.py -h
-    - CReSIL-identify.py -h
-    - CReSIL-verify.py -h
+    - cresil --help
+    - cresil --version
 
 about:
   home: https://github.com/visanuwan/cresil/tree/master
