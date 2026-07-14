@@ -11,9 +11,11 @@ source:
   sha256: '{{ sha256 }}'
 
 build:
-  number: 0
+  number: 1
   noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
+  script:
+    - sed -i "s|url='https://gitlab.com/visanu/cresil'|url='https://github.com/visanuwan/cresil'|g" setup.py || true
+    - {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
   entry_points:
     - cresil = cresil:main
   run_exports:
